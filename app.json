@@ -27,10 +27,28 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "fonts": [
+      {
+        "asset": "./assets/fonts/Poppins-Regular.ttf",
+        "family": "Poppins-Regular"
+      },
+      {
+        "asset": "./assets/fonts/Poppins-Medium.ttf",
+        "family": "Poppins-Medium"
+      },
+      {
+        "asset": "./assets/fonts/Poppins-Bold.ttf",
+        "family": "Poppins-Bold"
+      }
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }
