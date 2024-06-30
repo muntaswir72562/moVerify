@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 const OverallProcess = () => {
-  const steps = [
+  const router = useRouter();
+  const steps: { icon: keyof typeof Ionicons.glyphMap, title: string }[] = [
     { icon: 'document-text-outline', title: 'Upload identity documents' },
     { icon: 'camera-outline', title: 'Liveness check' },
     { icon: 'finger-print-outline', title: 'Biometric verification*' },
@@ -18,7 +20,7 @@ const OverallProcess = () => {
       {steps.map((step, index) => (
         <View key={index} style={styles.stepContainer}>
           <View style={styles.iconContainer}>
-            {/* <Ionicons name={step.icon} size={24} color="#007AFF" />s */}
+            <Ionicons name={step.icon} size={24} color="#007AFF" />
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.stepNumber}>Step {index + 1}</Text>
@@ -31,7 +33,10 @@ const OverallProcess = () => {
         <Text style={styles.infoButtonText}>Why this is needed?</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.startButton}>
+      <TouchableOpacity 
+      style={styles.startButton}
+      onPress={() => router.push('./uploadDocument')}
+      >
         <Text style={styles.startButtonText}>Start</Text>
       </TouchableOpacity>
     </View>

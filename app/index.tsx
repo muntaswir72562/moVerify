@@ -30,7 +30,7 @@ export default function WelcomeScreen() {
       
       <TouchableOpacity
         style={[styles.button, styles.verifyButton]}
-        onPress={() => router.push('./overall-process')}
+        onPress={() => router.push('./overallProcess')}
       >
         <Text style={styles.verifyButtonText}>Verify your identity</Text>
       </TouchableOpacity>

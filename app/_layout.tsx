@@ -9,6 +9,23 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+// Custom theme with the specified text color
+const customLightTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    text: '#2C3E50',
+  },
+};
+
+const customDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    text: '#2C3E50',
+  },
+};
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -28,21 +45,24 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'dark' ? customDarkTheme : customLightTheme}>
       <Stack>
         <Stack.Screen name="index" options={{
           headerShown: false,
           headerTitle: "Welcome"
-           }} />
+        }} />
         <Stack.Screen name="login" options={{ 
-        //   headerShown: true,
           headerTitle: ""
-           }} />
-        <Stack.Screen name="overall-process" options={{ 
-        //   headerShown: true,
+        }} />
+        <Stack.Screen name="overallProcess" options={{ 
           headerTitle: ""
-           }} />
-
+        }} />
+        <Stack.Screen name="uploadDocument" options={{ 
+          headerTitle: ""
+        }} />
+        <Stack.Screen name="liveFaceDetection" options={{ 
+          headerTitle: ""
+        }} />
       </Stack>
     </ThemeProvider>
   );
