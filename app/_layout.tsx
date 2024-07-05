@@ -72,6 +72,12 @@ export default function RootLayout() {
           <Stack.Screen name="screens/onboarding/setUpPassword" options={{ 
             headerTitle: ""
           }} />
+          <Stack.Screen name="screens/onboarding/profileCompletion" options={{ 
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/onboarding/welcomeVerification" options={{ 
+            headerTitle: ""
+          }} />
       </Stack>
     </ThemeProvider>
   );
