@@ -63,6 +63,9 @@ export default function RootLayout() {
         <Stack.Screen name="screens/onboarding/liveFaceDetection" options={{ 
           headerTitle: ""
         }} />
+        <Stack.Screen name="screens/onboarding/phoneNumber" options={{ 
+            headerTitle: ""
+          }} />
       </Stack>
     </ThemeProvider>
   );
