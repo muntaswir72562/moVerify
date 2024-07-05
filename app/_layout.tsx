@@ -51,16 +51,16 @@ export default function RootLayout() {
           headerShown: false,
           headerTitle: "Welcome"
         }} />
-        <Stack.Screen name="login" options={{ 
+        <Stack.Screen name="screens/login" options={{ 
           headerTitle: ""
         }} />
-        <Stack.Screen name="overallProcess" options={{ 
+        <Stack.Screen name="screens/onboarding/overallProcess" options={{ 
           headerTitle: ""
         }} />
-        <Stack.Screen name="uploadDocument" options={{ 
+        <Stack.Screen name="screens/onboarding/uploadDocument" options={{ 
           headerTitle: ""
         }} />
-        <Stack.Screen name="liveFaceDetection" options={{ 
+        <Stack.Screen name="screens/onboarding/liveFaceDetection" options={{ 
           headerTitle: ""
         }} />
       </Stack>

@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
       
       <TouchableOpacity
         style={[styles.button, styles.loginButton]}
-        onPress={() => router.push('./login')}
+        onPress={() => router.push('./screens/login')}
       >
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
@@ -30,7 +30,7 @@ export default function WelcomeScreen() {
       
       <TouchableOpacity
         style={[styles.button, styles.verifyButton]}
-        onPress={() => router.push('./overallProcess')}
+        onPress={() => router.push('./screens/onboarding/overallProcess')}
       >
         <Text style={styles.verifyButtonText}>Verify your identity</Text>
       </TouchableOpacity>

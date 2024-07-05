@@ -38,7 +38,7 @@ export default function LoginScreen() {
       style={styles.container}
     >
       <Image
-        source={require('../assets/images/login-illustration.png')}
+        source={require('../../assets/images/login-illustration.png')}
         style={styles.illustration}
         resizeMode="contain"
       />
