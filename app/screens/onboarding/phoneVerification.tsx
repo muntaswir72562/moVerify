@@ -1,12 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 export default function phoneVerification() {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<Array<TextInput | null>>([]);
   const { colors } = useTheme();
+  const router = useRouter();
 
   const handleCodeChange = (text: any, index: any) => {
     const newCode = [...code];
@@ -21,13 +22,14 @@ export default function phoneVerification() {
   const handleSendCode = () => {
     const fullCode = code.join('');
     console.log('Sending code:', fullCode);
+    router.push('./setUpPassword');
     // Implement your code sending logic here
   };
 
   return (
     <>
       <Stack.Screen options={{ title: '' }} />
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.container]}>
         <Text style={[styles.title, { color: colors.text }]}>
           Insert the 6 digit code we have sent you
         </Text>
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: "#fff"
   },
   title: {
     fontSize: 20,
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#2C3E50',
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,

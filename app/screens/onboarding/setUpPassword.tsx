@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 export default function setUpPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const { colors } = useTheme();
+  const router = useRouter();
 
   const handleSave = () => {
     if (password !== confirmPassword) {
@@ -15,15 +16,16 @@ export default function setUpPassword() {
     }
     console.log('Password saved:', password);
     // Implement your password saving logic here
+    router.push('./profileCompletion');
   };
 
   return (
     <>
       <Stack.Screen options={{ title: '' }} />
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.container]}>
         <Text style={[styles.title, { color: colors.text }]}>Set up your password</Text>
         <TextInput
-          style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+          style={[styles.input]}
           placeholder="Password"
           placeholderTextColor={colors.text}
           secureTextEntry
@@ -31,7 +33,7 @@ export default function setUpPassword() {
           onChangeText={setPassword}
         />
         <TextInput
-          style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+          style={[styles.input]}
           placeholder="Confirm password"
           placeholderTextColor={colors.text}
           secureTextEntry
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: "#fff"
   },
   title: {
     fontSize: 24,
@@ -66,11 +69,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     fontFamily: 'Poppins-Regular',
+    backgroundColor: '#F5F5F5',
   },
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#2C3E50',
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,

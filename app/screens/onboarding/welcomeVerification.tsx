@@ -9,15 +9,15 @@ export default function WelcomeVerificationScreen() {
 
   const handleGoToDashboard = () => {
     // Navigate to the dashboard screen
-    router.push('/dashboard');
+    // router.push('/dashboard');
   };
 
   return (
     <>
       <Stack.Screen options={{ title: '', headerShown: false }} />
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.container]}>
         <Image
-          source={require('../assets/verification-illustration.png')} // Make sure to add this image to your assets
+          source={require('../../../assets/images/verification-illustration.png')} // Make sure to add this image to your assets
           style={styles.illustration}
           resizeMode="contain"
         />
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: "#fff"
   },
   illustration: {
     width: '80%',
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#2C3E50',
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,

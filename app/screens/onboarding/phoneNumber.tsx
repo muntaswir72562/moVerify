@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
 export default function PhoneNumber() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const { colors } = useTheme();
-
+  const router = useRouter();
+  
   const handleSendCode = () => {
     // Implement your code sending logic here
     console.log('Sending code to:', phoneNumber);
+    router.push('./phoneVerification');
   };
 
   return (
     <>
       <Stack.Screen options={{ title: '' }} />
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={styles.container}>
         <Text style={[styles.title, { color: colors.text }]}>Register your phone number</Text>
         <TextInput
           style={[styles.input, { borderColor: colors.border, color: colors.text }]}
@@ -39,11 +41,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: "#fff"
   },
   title: {
     fontSize: 24,
     fontFamily: 'Poppins-Bold',
     marginBottom: 20,
+    textAlign: "center"
   },
   input: {
     width: '100%',
@@ -58,14 +62,15 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: '#2C3E50',
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 25,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
     fontFamily: 'Poppins-Medium',
   },
+
 });

@@ -9,9 +9,11 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import { useRouter } from 'expo-router';
 
 const LiveFaceDetection = () => {
   const { colors } = useTheme();
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -70,7 +72,10 @@ const LiveFaceDetection = () => {
             style={styles.playButton}
           /> */}
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity 
+        style={styles.button}
+        onPress={() => router.push('./phoneNumber')}
+        >
           <Text style={styles.buttonText}>Open camera</Text>
         </TouchableOpacity>
       </ScrollView>
