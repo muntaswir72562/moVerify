@@ -9,7 +9,7 @@ export default function WelcomeVerificationScreen() {
 
   const handleGoToDashboard = () => {
     // Navigate to the dashboard screen
-    // router.push('/dashboard');
+    router.push('../user-dashboard/dashboard');
   };
 
   return (
@@ -21,8 +21,8 @@ export default function WelcomeVerificationScreen() {
           style={styles.illustration}
           resizeMode="contain"
         />
-        <Text style={[styles.welcomeText, { color: colors.text }]}>Welcome, Muntaswir</Text>
-        <Text style={[styles.verificationText, { color: colors.text }]}>
+        <Text style={[styles.welcomeText]}>Welcome, Muntaswir</Text>
+        <Text style={[styles.verificationText]}>
           Your identity has been verified!
         </Text>
         <TouchableOpacity style={styles.button} onPress={handleGoToDashboard}>

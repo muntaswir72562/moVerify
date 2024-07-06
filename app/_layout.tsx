@@ -78,6 +78,26 @@ export default function RootLayout() {
           <Stack.Screen name="screens/onboarding/welcomeVerification" options={{ 
             headerTitle: ""
           }} />
+          <Stack.Screen name="screens/user-dashboard/dashboard" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/user-dashboard/documentManagement" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/user-dashboard/linkedServices" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/user-dashboard/personalSetting" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/user-dashboard/recentActivities" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
       </Stack>
     </ThemeProvider>
   );
