@@ -64,21 +64,23 @@ const LinkedServices: React.FC = () => {
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Linked services</Text>
-          <View style={styles.tableHeader}>
-            <Text style={[styles.headerCell, styles.serviceNameColumn]}>Service Name</Text>
-            <Text style={[styles.headerCell, styles.permissionColumn]}>Permission Status</Text>
-            <Text style={[styles.headerCell, styles.actionColumn]}>Action</Text>
-          </View>
-          <ScrollView>
-            {services.map((service, index) => (
-              <View key={index} style={styles.tableRow}>
-                <Text style={[styles.cell, styles.serviceNameColumn]}>{service.name}</Text>
-                <Text style={[styles.cell, styles.permissionColumn]}>{service.permission}</Text>
-                <TouchableOpacity style={styles.actionColumn}>
-                  <Text style={styles.actionText}>[{service.action}]</Text>
-                </TouchableOpacity>
+          <ScrollView horizontal={true} style={styles.tableScrollView}>
+            <View>
+              <View style={styles.tableHeader}>
+                <Text style={[styles.headerCell, styles.serviceNameColumn]}>Service Name</Text>
+                <Text style={[styles.headerCell, styles.permissionColumn]}>Permission Status</Text>
+                <Text style={[styles.headerCell, styles.actionColumn]}>Action</Text>
               </View>
-            ))}
+              {services.map((service, index) => (
+                <View key={index} style={styles.tableRow}>
+                  <Text style={[styles.cell, styles.serviceNameColumn]}>{service.name}</Text>
+                  <Text style={[styles.cell, styles.permissionColumn]}>{service.permission}</Text>
+                  <TouchableOpacity style={styles.actionColumn}>
+                    <Text style={styles.actionText}>[{service.action}]</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -148,6 +150,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: 'Poppins-Bold',
   },
+  tableScrollView: {
+    flexGrow: 0,
+  },
   tableHeader: {
     flexDirection: 'row',
     borderBottomWidth: 1,
@@ -171,13 +176,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   serviceNameColumn: {
-    flex: 2,
+    width: 120,
   },
   permissionColumn: {
-    flex: 2,
+    width: 150,
   },
   actionColumn: {
-    flex: 1,
+    width: 100,
   },
   actionText: {
     color: '#007AFF',

@@ -68,75 +68,83 @@ const Dashboard: React.FC = () => {
   const renderVerifiedDocuments = () => (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Verified documents</Text>
-      <View style={styles.tableHeader}>
-        <Text style={styles.tableHeaderCell}>Document</Text>
-        <Text style={styles.tableHeaderCell}>Status</Text>
-        <Text style={styles.tableHeaderCell}>Expiry date</Text>
-        <Text style={styles.tableHeaderCell}>Action</Text>
-      </View>
-      {[
-        {
-          document: "NIC",
-          status: "Verified",
-          expiryDate: "N/A",
-          action: "N/A",
-        },
-        {
-          document: "Passport",
-          status: "Verified",
-          expiryDate: "05/15/2025",
-          action: "N/A",
-        },
-        {
-          document: "Bank statement",
-          status: "Need review",
-          expiryDate: "N/A",
-          action: "Verify",
-        },
-        {
-          document: "Driver's licence",
-          status: "Pending",
-          expiryDate: "N/A",
-          action: "Upload new photo",
-        },
-      ].map((item, index) => (
-        <View key={index} style={styles.tableRow}>
-          <Text style={styles.tableCell}>{item.document}</Text>
-          <Text style={styles.tableCell}>{item.status}</Text>
-          <Text style={styles.tableCell}>{item.expiryDate}</Text>
-          <Text style={[styles.tableCell, styles.actionText]}>
-            {item.action}
-          </Text>
+      <ScrollView horizontal={true} style={styles.tableScrollView}>
+        <View>
+          <View style={styles.tableHeader}>
+            <Text style={[styles.tableHeaderCell, styles.documentColumn]}>Document</Text>
+            <Text style={[styles.tableHeaderCell, styles.statusColumn]}>Status</Text>
+            <Text style={[styles.tableHeaderCell, styles.expiryDateColumn]}>Expiry date</Text>
+            <Text style={[styles.tableHeaderCell, styles.actionColumn]}>Action</Text>
+          </View>
+          {[
+            {
+              document: "NIC",
+              status: "Verified",
+              expiryDate: "N/A",
+              action: "N/A",
+            },
+            {
+              document: "Passport",
+              status: "Verified",
+              expiryDate: "05/15/2025",
+              action: "N/A",
+            },
+            {
+              document: "Bank statement",
+              status: "Need review",
+              expiryDate: "N/A",
+              action: "Verify",
+            },
+            {
+              document: "Driver's licence",
+              status: "Pending",
+              expiryDate: "N/A",
+              action: "Upload new photo",
+            },
+          ].map((item, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={[styles.tableCell, styles.documentColumn]}>{item.document}</Text>
+              <Text style={[styles.tableCell, styles.statusColumn]}>{item.status}</Text>
+              <Text style={[styles.tableCell, styles.expiryDateColumn]}>{item.expiryDate}</Text>
+              <Text style={[styles.tableCell, styles.actionColumn, styles.actionText]}>
+                {item.action}
+              </Text>
+            </View>
+          ))}
         </View>
-      ))}
+      </ScrollView>
     </View>
   );
 
   const renderLinkedServices = () => (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Linked services</Text>
-      <View style={styles.tableHeader}>
-        <Text style={styles.tableHeaderCell}>Service Name</Text>
-        <Text style={styles.tableHeaderCell}>Permission Status</Text>
-        <Text style={styles.tableHeaderCell}>Action</Text>
-      </View>
-      {[
-        { service: "MCB", permission: "Full access", action: "Revoke" },
-        {
-          service: "Gov portal",
-          permission: "Read-only access",
-          action: "Manage",
-        },
-        { service: "Amazon", permission: "Full access", action: "Revoke" },
-      ].map((item, index) => (
-        <View key={index} style={styles.tableRow}>
-          <Text style={styles.tableCell}>{item.service}</Text>
-          <Text style={styles.tableCell}>{item.permission}</Text>
-          <Text style={[styles.tableCell, styles.actionText]}>
-            {item.action}
-          </Text>
+      <ScrollView horizontal={true} style={styles.tableScrollView}>
+        <View>
+          <View style={styles.tableHeader}>
+            <Text style={[styles.tableHeaderCell, styles.serviceNameColumn]}>Service Name</Text>
+            <Text style={[styles.tableHeaderCell, styles.permissionStatusColumn]}>Permission Status</Text>
+            <Text style={[styles.tableHeaderCell, styles.actionColumn]}>Action</Text>
+          </View>
+          {[
+            { service: "MCB", permission: "Full access", action: "Revoke" },
+            {
+              service: "Gov portal",
+              permission: "Read-only access",
+              action: "Manage",
+            },
+            { service: "Amazon", permission: "Full access", action: "Revoke" },
+          ].map((item, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={[styles.tableCell, styles.serviceNameColumn]}>{item.service}</Text>
+              <Text style={[styles.tableCell, styles.permissionStatusColumn]}>{item.permission}</Text>
+              <Text style={[styles.tableCell, styles.actionColumn, styles.actionText]}>
+                {item.action}
+              </Text>
+            </View>
+          ))}
         </View>
-      ))}
+      </ScrollView>
     </View>
   );
 
@@ -229,41 +237,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     zIndex: 100,
   },
-  sidebarContainer: {
-    flex: 1,
-    backgroundColor: "#F5F5F5",
-    paddingTop: 40,
-    paddingHorizontal: 20,
-  },
-  closeButton: {
-    marginBottom: 20,
-  },
-  menuContainer: {
-    flex: 1,
-  },
-  footerContainer: {
-    marginTop: "auto",
-    marginBottom: 20,
-  },
-  menuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
-  },
-  menuItemText: {
-    marginLeft: 15,
-    fontSize: 16,
-    color: "#2C3E50",
-  },
   content: {
     flex: 1,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#E0E0E0",
@@ -272,6 +252,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#2C3E50",
+    fontFamily: 'Poppins-Bold',
   },
   headerIcons: {
     flexDirection: "row",
@@ -298,6 +279,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
     color: "#2C3E50",
+    fontFamily: 'Poppins-Bold',
   },
   statRow: {
     flexDirection: "row",
@@ -308,10 +290,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     color: "#2C3E50",
+    fontFamily: 'Poppins-Regular',
   },
   statValue: {
     fontWeight: "bold",
     color: "#2C3E50",
+    fontFamily: 'Poppins-Bold',
+  },
+  tableScrollView: {
+    flexGrow: 0,
   },
   tableHeader: {
     flexDirection: "row",
@@ -321,20 +308,39 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   tableHeaderCell: {
-    flex: 1,
     fontWeight: "bold",
     color: "#2C3E50",
+    fontFamily: 'Poppins-Bold',
   },
   tableRow: {
     flexDirection: "row",
     marginBottom: 8,
   },
   tableCell: {
-    flex: 1,
     color: "#2C3E50",
+    fontFamily: 'Poppins-Regular',
+  },
+  documentColumn: {
+    width: 120,
+  },
+  statusColumn: {
+    width: 100,
+  },
+  expiryDateColumn: {
+    width: 100,
+  },
+  actionColumn: {
+    width: 120,
+  },
+  serviceNameColumn: {
+    width: 120,
+  },
+  permissionStatusColumn: {
+    width: 150,
   },
   actionText: {
     color: "#007AFF",
+    fontFamily: 'Poppins-Medium',
   },
   activityRow: {
     flexDirection: "row",
@@ -345,13 +351,16 @@ const styles = StyleSheet.create({
   activityText: {
     fontWeight: "bold",
     color: "#2C3E50",
+    fontFamily: 'Poppins-Bold',
   },
   activityDetails: {
     color: "#2C3E50",
     fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
   moreDetails: {
     color: "#007AFF",
+    fontFamily: 'Poppins-Medium',
   },
   footer: {
     flexDirection: "row",
@@ -363,6 +372,7 @@ const styles = StyleSheet.create({
   footerText: {
     color: "#2C3E50",
     fontSize: 12,
+    fontFamily: 'Poppins-Regular',
   },
 });
 

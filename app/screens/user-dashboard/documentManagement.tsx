@@ -61,22 +61,26 @@ const DocumentManagement: React.FC = () => {
 
           <View style={styles.card}>
             <Text style={styles.cardTitle}>List of documents</Text>
-            <View style={styles.tableHeader}>
-              <Text style={[styles.columnHeader, styles.documentColumn]}>Document</Text>
-              <Text style={[styles.columnHeader, styles.statusColumn]}>Status</Text>
-              <Text style={[styles.columnHeader, styles.expiryColumn]}>Expiry date</Text>
-              <Text style={[styles.columnHeader, styles.actionColumn]}>Action</Text>
-            </View>
-            {documents.map((doc, index) => (
-              <View key={index} style={styles.tableRow}>
-                <Text style={[styles.cellText, styles.documentColumn]}>{doc.name}</Text>
-                <Text style={[styles.cellText, styles.statusColumn]}>{doc.status}</Text>
-                <Text style={[styles.cellText, styles.expiryColumn]}>{doc.expiryDate}</Text>
-                <TouchableOpacity style={styles.actionColumn}>
-                  <Text style={[styles.cellText, styles.actionText]}>{doc.action}</Text>
-                </TouchableOpacity>
+            <ScrollView horizontal={true} style={styles.tableScrollView}>
+              <View>
+                <View style={styles.tableHeader}>
+                  <Text style={[styles.columnHeader, styles.documentColumn]}>Document</Text>
+                  <Text style={[styles.columnHeader, styles.statusColumn]}>Status</Text>
+                  <Text style={[styles.columnHeader, styles.expiryColumn]}>Expiry date</Text>
+                  <Text style={[styles.columnHeader, styles.actionColumn]}>Action</Text>
+                </View>
+                {documents.map((doc, index) => (
+                  <View key={index} style={styles.tableRow}>
+                    <Text style={[styles.cellText, styles.documentColumn]}>{doc.name}</Text>
+                    <Text style={[styles.cellText, styles.statusColumn]}>{doc.status}</Text>
+                    <Text style={[styles.cellText, styles.expiryColumn]}>{doc.expiryDate}</Text>
+                    <TouchableOpacity style={styles.actionColumn}>
+                      <Text style={[styles.cellText, styles.actionText]}>{doc.action}</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
               </View>
-            ))}
+            </ScrollView>
           </View>
         </ScrollView>
       </View>
@@ -122,7 +126,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    padding: 16,
   },
   uploadButton: {
     backgroundColor: 'black',
@@ -153,6 +156,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: 'Poppins-Bold',
   },
+  tableScrollView: {
+    flexGrow: 0,
+  },
   tableHeader: {
     flexDirection: 'row',
     borderBottomWidth: 1,
@@ -176,16 +182,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   documentColumn: {
-    flex: 2,
+    width: 100,
   },
   statusColumn: {
-    flex: 1,
+    width: 80,
   },
   expiryColumn: {
-    flex: 1,
+    width: 100,
   },
   actionColumn: {
-    flex: 1,
+    width: 120,
   },
   actionText: {
     color: '#007AFF',
