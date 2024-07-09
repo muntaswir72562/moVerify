@@ -98,6 +98,34 @@ export default function RootLayout() {
             headerShown: false,
             headerTitle: ""
           }} />
+          <Stack.Screen name="screens/admin-dashboard/dashboard" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/documentManagement" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/userManagement" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/verificationRequest" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/report" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/recentActivities" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
+          <Stack.Screen name="screens/admin-dashboard/services" options={{ 
+            headerShown: false,
+            headerTitle: ""
+          }} />
       </Stack>
     </ThemeProvider>
   );

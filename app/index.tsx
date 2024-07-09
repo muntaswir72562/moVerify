@@ -22,7 +22,7 @@ export default function WelcomeScreen() {
       <TouchableOpacity
         style={[styles.button, styles.loginButton]}
         // onPress={() => router.push('./screens/login')}
-        onPress={() => router.push('./screens/user-dashboard/dashboard')}
+        onPress={() => router.push('./screens/admin-dashboard/dashboard')}
       >
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
