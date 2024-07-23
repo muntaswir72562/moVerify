@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Poppins-Bold',
     fontSize: 22,
-    color: '#333',
+    color: '#2C3E50',  // Changed to #2C3E50
     marginBottom: 10,
     textAlign: 'center',
   },
   subtitle: {
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
-    color: '#666',
+    color: '#2C3E50',  // Changed to #2C3E50
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'Poppins-Medium',
     fontSize: 16,
-    color: '#333',
+    color: '#2C3E50',  // Changed to #2C3E50
   },
   note: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
-    color: '#666',
+    color: '#2C3E50',  // Changed to #2C3E50
     marginTop: 10,
     fontStyle: 'italic',
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   continueButtonText: {
-    color: '#FFFFFF',
+    color: '#FFFFFF',  // Kept white for contrast on black background
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: 'Poppins-Bold',
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   helpButtonText: {
     fontFamily: 'Poppins-Medium',
-    color: '#4A90E2',
+    color: '#4A90E2',  // Kept blue for visibility and to maintain the "link" appearance
     fontSize: 16,
   },
 });

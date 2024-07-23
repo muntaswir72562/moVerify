@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const OverallProcess = () => {
   const router = useRouter();
-  const steps: { icon: keyof typeof Ionicons.glyphMap, title: string }[] = [
+  const steps: { icon: keyof typeof Ionicons.glyphMap; title: string }[] = [
     { icon: 'document-text-outline', title: 'Upload identity documents' },
     { icon: 'camera-outline', title: 'Liveness check' },
     { icon: 'finger-print-outline', title: 'Biometric verification*' },
@@ -34,8 +34,8 @@ const OverallProcess = () => {
       </TouchableOpacity>
       
       <TouchableOpacity 
-      style={styles.startButton}
-      onPress={() => router.push('./uploadDocument')}
+        style={styles.startButton}
+        onPress={() => router.push('./uploadDocument')}
       >
         <Text style={styles.startButtonText}>Start</Text>
       </TouchableOpacity>
@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     fontFamily: 'Poppins-Bold',
+    color: '#2C3E50',
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#2C3E50',
     marginBottom: 20,
     fontFamily: 'Poppins-Regular',
   },
@@ -77,21 +78,22 @@ const styles = StyleSheet.create({
   },
   stepNumber: {
     fontSize: 12,
-    color: '#007AFF',
+    color: '#2C3E50',
     fontFamily: 'Poppins-Medium',
   },
   stepTitle: {
     fontSize: 16,
     fontFamily: 'Poppins-Medium',
+    color: '#2C3E50',
   },
   infoButton: {
     alignSelf: 'flex-start',
     marginBottom: 20,
   },
   infoButtonText: {
-    color: '#007AFF',
     fontSize: 14,
     fontFamily: 'Poppins-Regular',
+    color: '#4A90E2',
   },
   startButton: {
     backgroundColor: '#000000',
