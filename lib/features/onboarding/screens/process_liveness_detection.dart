@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:moverify/features/onboarding/screens/upload_documents.dart';
+
 class LivenessDetectionPage extends StatefulWidget {
   const LivenessDetectionPage({super.key});
 
@@ -79,7 +80,7 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
         _instruction = "Liveness check passed!";
         _progress = 1.0;
       });
-      _navigateToIDScanning();
+      _navigateToDocumentUpload();
       return;
     }
 
@@ -127,16 +128,11 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
     _startNextChallenge();
   }
 
-  void _navigateToIDScanning() {
+  void _navigateToDocumentUpload() {
     if (!mounted) return;
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => IDScanningPage(selfiePath: _selfieImage!),
-    //   ),
-    // );
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const UploadDocumentScreen(),
-      ));
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => UploadDocumentScreen(selfiePath: _selfieImage!),
+    ));
   }
 
   Future<void> _processCameraImage(CameraImage image) async {
@@ -217,6 +213,7 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
 
     return InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
   }
+
   void _checkChallenge(Face face) {
     switch (_currentChallenge) {
       case 'Nod':

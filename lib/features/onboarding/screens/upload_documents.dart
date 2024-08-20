@@ -1,8 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:moverify/features/onboarding/screens/fingerprint_registration.dart';
+import 'package:moverify/features/onboarding/screens/id_scanning_page.dart';
 
-class UploadDocumentScreen extends StatelessWidget {
-  const UploadDocumentScreen({super.key});
+class UploadDocumentScreen extends StatefulWidget {
+  final File selfiePath;
+
+  const UploadDocumentScreen({super.key, required this.selfiePath});
+
+  @override
+  State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();
+}
+
+class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
+  bool _isNationalIdVerified = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +72,9 @@ class UploadDocumentScreen extends StatelessWidget {
                 style: textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
               ),
               const SizedBox(height: 24),
-              _buildDocumentItem(context, 'National identity card', Icons.credit_card),
-              _buildDocumentItem(context, 'Utility bill', Icons.receipt_long),
-              _buildDocumentItem(context, 'Passport*', Icons.book),
+              _buildDocumentItem(context, 'National identity card', Icons.credit_card, _isNationalIdVerified),
+              _buildDocumentItem(context, 'Utility bill', Icons.receipt_long, false),
+              _buildDocumentItem(context, 'Passport*', Icons.book, false),
               const SizedBox(height: 16),
               Text(
                 '*If you don\'t have a national identity card, please upload your passport',
@@ -86,12 +97,13 @@ class UploadDocumentScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  // Handle continue action
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FingerprintRegistrationScreen(),
-                  ));
-                },
+                onPressed: _isNationalIdVerified
+                    ? () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const FingerprintRegistrationScreen(),
+                        ));
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
@@ -109,7 +121,7 @@ class UploadDocumentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDocumentItem(BuildContext context, String title, IconData icon) {
+  Widget _buildDocumentItem(BuildContext context, String title, IconData icon, bool isVerified) {
     final theme = Theme.of(context);
     return Card(
       elevation: 0,
@@ -117,10 +129,25 @@ class UploadDocumentScreen extends StatelessWidget {
       child: ListTile(
         leading: Icon(icon, color: theme.primaryColor),
         title: Text(title, style: theme.textTheme.bodyLarge),
-        trailing: Icon(Icons.chevron_right, color: theme.primaryColor),
-        onTap: () {
-          // Handle document selection
-        },
+        trailing: isVerified
+            ? Icon(Icons.check_circle, color: Colors.green)
+            : Icon(Icons.chevron_right, color: theme.primaryColor),
+        onTap: isVerified
+            ? null
+            : () async {
+                if (title == 'National identity card') {
+                  final result = await Navigator.of(context).push<bool>(MaterialPageRoute(
+                    builder: (context) => IDScanningPage(selfiePath: widget.selfiePath),
+                  ));
+                  if (result == true) {
+                    setState(() {
+                      _isNationalIdVerified = true;
+                    });
+                  }
+                } else {
+                  // Handle other document types
+                }
+              },
       ),
     );
   }

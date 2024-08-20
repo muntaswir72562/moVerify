@@ -6,6 +6,159 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
+// Assume FingerprintRegistrationScreen is defined elsewhere
+import 'package:moverify/features/onboarding/screens/fingerprint_registration.dart';
+
+class UploadDocumentScreen extends StatefulWidget {
+  final File selfiePath;
+
+  const UploadDocumentScreen({super.key, required this.selfiePath});
+
+  @override
+  State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();
+}
+
+class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
+  bool _isNationalIdVerified = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: theme.primaryColor),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.person_outline, color: theme.primaryColor),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(height: 10, width: 100, color: Colors.grey[400]),
+                          const SizedBox(height: 8),
+                          Container(height: 10, width: double.infinity, color: Colors.grey[400]),
+                          const SizedBox(height: 4),
+                          Container(height: 10, width: double.infinity, color: Colors.grey[400]),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'Upload proof of your identity',
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF2C3E50),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Please submit the documents below',
+                style: textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+              ),
+              const SizedBox(height: 24),
+              _buildDocumentItem(context, 'National identity card', Icons.credit_card, _isNationalIdVerified),
+              _buildDocumentItem(context, 'Utility bill', Icons.receipt_long, false),
+              _buildDocumentItem(context, 'Passport*', Icons.book, false),
+              const SizedBox(height: 16),
+              Text(
+                '*If you don\'t have a national identity card, please upload your passport',
+                style: textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+              ),
+              const Spacer(),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    // Handle 'Need Help?' action
+                  },
+                  child: Text(
+                    'Need Help?',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: theme.primaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _isNationalIdVerified
+                    ? () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const FingerprintRegistrationScreen(),
+                        ));
+                      }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+                child: Text('Continue', style: textTheme.bodyLarge?.copyWith(color: Colors.white)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDocumentItem(BuildContext context, String title, IconData icon, bool isVerified) {
+    final theme = Theme.of(context);
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: ListTile(
+        leading: Icon(icon, color: theme.primaryColor),
+        title: Text(title, style: theme.textTheme.bodyLarge),
+        trailing: isVerified
+            ? Icon(Icons.check_circle, color: Colors.green)
+            : Icon(Icons.chevron_right, color: theme.primaryColor),
+        onTap: isVerified
+            ? null
+            : () async {
+                if (title == 'National identity card') {
+                  final result = await Navigator.of(context).push<bool>(MaterialPageRoute(
+                    builder: (context) => IDScanningPage(selfiePath: widget.selfiePath),
+                  ));
+                  if (result == true) {
+                    setState(() {
+                      _isNationalIdVerified = true;
+                    });
+                  }
+                } else {
+                  // Handle other document types
+                }
+              },
+      ),
+    );
+  }
+}
+
 class IDScanningPage extends StatefulWidget {
   final File selfiePath;
 
@@ -110,7 +263,6 @@ class _IDScanningPageState extends State<IDScanningPage> {
       // Extract text from ID
       await _extractTextFromID();
 
-      // if (similarityScore >= 0.5) { // Set a threshold for similarity
       if (similarityScore >= 0) {
         _showResultDialog('ID verified successfully!\nSimilarity score: ${(similarityScore * 100).toStringAsFixed(2)}%\n\nExtracted Information:\n$_extractedText', false);
       } else {
@@ -134,53 +286,53 @@ class _IDScanningPageState extends State<IDScanningPage> {
   }
 
   String _parseExtractedText(String text) {
-  final lines = text.split('\n');
-  final extractedInfo = {
-    'Surname': '',
-    'Surname at Birth': '',
-    'First Name': '',
-    'Gender': '',
-    'DOB': '',
-    'NIC': '',
-  };
+    final lines = text.split('\n');
+    final extractedInfo = {
+      'Surname': '',
+      'Surname at Birth': '',
+      'First Name': '',
+      'Gender': '',
+      'DOB': '',
+      'NIC': '',
+    };
 
-  for (int i = 0; i < lines.length; i++) {
-    String line = lines[i].trim().toLowerCase();
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i].trim().toLowerCase();
 
-    if (line == 'specimen') continue; 
+      if (line == 'specimen') continue; 
 
-    if (line.contains('surname')) {
-      if (line.contains('at birth')) {
-        if (!lines[i+1].contains('Gender')) {
-          extractedInfo['Surname at Birth'] = lines[i+1].trim();
+      if (line.contains('surname')) {
+        if (line.contains('at birth')) {
+          if (!lines[i+1].contains('Gender')) {
+            extractedInfo['Surname at Birth'] = lines[i+1].trim();
+          }
+        } else {
+          extractedInfo['Surname'] = lines[i+1].trim();
         }
-      } else {
-        extractedInfo['Surname'] = lines[i+1].trim();
-      }
-    } else if (line.contains('first name') || line.contains('given name')) {
-      extractedInfo['First Name'] = lines[i+1].trim();
-    } else if (line.contains('date of birth') || line.contains('Date')) {
-      extractedInfo['DOB'] = lines[i+1].trim();
-    } else if (RegExp(r'[A-Z]\d{13}').hasMatch(line.toUpperCase())) {
-      extractedInfo['NIC'] = line.toUpperCase();
-    } else if (line.contains('gender')) {
-      if (lines[i+1].contains('M')) {
-        extractedInfo['Gender'] = 'Male';
-      }else if (lines[i+1].contains('F')) {
-      extractedInfo['Gender'] = 'Female';
+      } else if (line.contains('first name') || line.contains('given name')) {
+        extractedInfo['First Name'] = lines[i+1].trim();
+      } else if (line.contains('date of birth') || line.contains('Date')) {
+        extractedInfo['DOB'] = lines[i+1].trim();
+      } else if (RegExp(r'[A-Z]\d{13}').hasMatch(line.toUpperCase())) {
+        extractedInfo['NIC'] = line.toUpperCase();
+      } else if (line.contains('gender')) {
+        if (lines[i+1].contains('M')) {
+          extractedInfo['Gender'] = 'Male';
+        } else if (lines[i+1].contains('F')) {
+          extractedInfo['Gender'] = 'Female';
+        }
       }
     }
-  }
 
-  return '''
-  Surname: ${extractedInfo['Surname']}
-  Surname at Birth: ${extractedInfo['Surname at Birth']}
-  First Name: ${extractedInfo['First Name']}
-  Gender: ${extractedInfo['Gender']}
-  DOB: ${extractedInfo['DOB']}
-  NIC: ${extractedInfo['NIC']}
-  ''';
-}
+    return '''
+    Surname: ${extractedInfo['Surname']}
+    Surname at Birth: ${extractedInfo['Surname at Birth']}
+    First Name: ${extractedInfo['First Name']}
+    Gender: ${extractedInfo['Gender']}
+    DOB: ${extractedInfo['DOB']}
+    NIC: ${extractedInfo['NIC']}
+    ''';
+  }
 
   void _showResultDialog(String message, bool showRetry) {
     showDialog(
@@ -198,7 +350,13 @@ class _IDScanningPageState extends State<IDScanningPage> {
               child: const Text('Retry'),
             ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (!showRetry) {
+                // Return true to UploadDocumentScreen if verification was successful
+                Navigator.of(context).pop(true);
+              }
+            },
             child: const Text('OK'),
           ),
         ],
@@ -256,10 +414,10 @@ class _IDScanningPageState extends State<IDScanningPage> {
   }
 
   double _calculateDistance(Point<int> p1, Point<int> p2) {
-    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2).toDouble());
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return const Scaffold(
