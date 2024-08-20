@@ -1,0 +1,36 @@
+lib/
+├── features/
+│   ├── onboarding/
+│   │   ├── screens/
+│   │   └── widgets/
+│   ├── document_verification/
+│   │   ├── screens/
+│   │   ├── widgets/
+│   │   └── services/
+│   ├── face_recognition/
+│   │   ├── screens/
+│   │   ├── widgets/
+│   │   └── services/
+│   ├── questionnaire/
+│   │   ├── screens/
+│   │   └── widgets/
+│   ├── user_dashboard/
+│   │   ├── screens/
+│   │   └── widgets/
+│   └── admin_dashboard/
+│       ├── screens/
+│       └── widgets/
+├── core/
+│   ├── widgets/
+│   ├── services/
+│   │   ├── api_service.dart
+│   │   ├── auth_service.dart
+│   │   └── storage_service.dart
+│   ├── utils/
+│   ├── constants/
+│   └── theme/
+│       └── app_theme.dart
+├── routes/
+│   └── app_router.dart
+├── models/
+└── main.dart
