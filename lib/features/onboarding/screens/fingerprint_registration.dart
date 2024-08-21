@@ -52,9 +52,7 @@ class _FingerprintRegistrationScreenState extends State<FingerprintRegistrationS
         await Future.delayed(const Duration(seconds: 1));
         
         // Navigate to the next page
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const RegisterPhoneScreen(),),
-        );
+        _navigateToNextPage();
       } else {
         setState(() {
           _registrationStatus = 'failed';
@@ -68,6 +66,12 @@ class _FingerprintRegistrationScreenState extends State<FingerprintRegistrationS
         _errorMessage = 'Error: ${e.message}';
       });
     }
+  }
+
+  void _navigateToNextPage() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const RegisterPhoneScreen()),
+    );
   }
 
   @override
@@ -101,6 +105,14 @@ class _FingerprintRegistrationScreenState extends State<FingerprintRegistrationS
                     textAlign: TextAlign.center,
                   ),
                 ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: _navigateToNextPage,
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.grey[600],
+                ),
+                child: const Text('Skip'),
+              ),
             ],
           ),
         ),
