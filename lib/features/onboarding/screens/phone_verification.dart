@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moverify/features/onboarding/screens/set_up_password.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'set_up_password.dart'; 
 class VerifyCodeScreen extends StatefulWidget {
-  const VerifyCodeScreen({super.key});
+  final String verificationId;
+
+  const VerifyCodeScreen({Key? key, required this.verificationId}) : super(key: key);
 
   @override
-  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+  _VerifyCodeScreenState createState() => _VerifyCodeScreenState();
 }
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -43,7 +46,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Insert the 6 digit code we have sent you',
+                'Enter the 6-digit code we sent you',
                 style: textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF2C3E50),
@@ -57,14 +60,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                  // Handle verify code action
-                  String code = _controllers.map((c) => c.text).join();
-                  print('Entered code: $code');
-                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SetPasswordScreen(),
-                  ));
-                },
+                onPressed: _verifyCode,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
@@ -110,5 +106,28 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _verifyCode() async {
+    String smsCode = _controllers.map((c) => c.text).join();
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: widget.verificationId,
+        smsCode: smsCode,
+      );
+      await _auth.signInWithCredential(credential);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Phone number verified successfully!')),
+      );
+      // Navigate to the next screen (e.g., home screen)
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+      Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const SetPasswordScreen(),
+    ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to verify: ${e.toString()}')),
+      );
+    }
   }
 }

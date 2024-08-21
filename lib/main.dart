@@ -3,7 +3,11 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login.dart';
 import 'features/onboarding/screens/overall_process.dart';
 import 'features/onboarding/screens/fingerprint_registration.dart';
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

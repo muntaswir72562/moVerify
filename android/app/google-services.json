@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688574396926",
+    "project_id": "moverify-a4263",
+    "storage_bucket": "moverify-a4263.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688574396926:android:da133ad95229254ac5e8af",
+        "android_client_info": {
+          "package_name": "com.example.moverify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX-042tyb7tQbIkfyOkIZF1P00h6j9X8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

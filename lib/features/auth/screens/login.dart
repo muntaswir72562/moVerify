@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moverify/features/user_dashboard/screens/user_dashboard.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -44,6 +45,9 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Implement login logic
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const UserDashboardScreen(),
+                  ));
                 },
                 style: theme.elevatedButtonTheme.style,
                 child: Text('Login', style: textTheme.bodyLarge?.copyWith(color: Colors.white)),
