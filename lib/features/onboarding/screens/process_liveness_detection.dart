@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:moverify/features/onboarding/screens/upload_documents.dart';
+import 'package:lottie/lottie.dart';
 
 class LivenessDetectionPage extends StatefulWidget {
   const LivenessDetectionPage({super.key});
@@ -13,18 +14,18 @@ class LivenessDetectionPage extends StatefulWidget {
   State<LivenessDetectionPage> createState() => _LivenessDetectionPageState();
 }
 
-class _LivenessDetectionPageState extends State<LivenessDetectionPage> with SingleTickerProviderStateMixin {
+class _LivenessDetectionPageState extends State<LivenessDetectionPage> with TickerProviderStateMixin {
   CameraController? _cameraController;
   FaceDetector? _faceDetector;
   bool _isDetecting = false;
   String _instruction = "Place your face in the circle";
-  final List<String> _challenges = ['Nod', 'Smile', 'Turn Left', 'Turn Right'];
+  final List<String> _challenges = ['Nod', 'Smile', 'Turn Right', 'Turn Left'];
   String _currentChallenge = '';
   int _challengeIndex = -1;
   Timer? _challengeTimer;
   int _timeRemaining = 10;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  late AnimationController _progressAnimationController;
+  late Animation<double> _progressAnimation;
   double _progress = 0.0;
   double? _lastPitchAngle;
   int _nodCount = 0;
@@ -32,6 +33,9 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
   bool _faceDetected = false;
   bool _selfieCapturing = false;
   File? _selfieImage;
+
+  late AnimationController _challengeAnimationController;
+  String _currentAnimationAsset = '';
 
   @override
   void initState() {
@@ -43,14 +47,19 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
         minFaceSize: 0.1,
       ),
     );
-    _animationController = AnimationController(
+    _progressAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController)
+    _progressAnimation = Tween<double>(begin: 0, end: 1).animate(_progressAnimationController)
       ..addListener(() {
         setState(() {});
       });
+
+    _challengeAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   Future<void> _initializeCamera() async {
@@ -79,19 +88,38 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
       setState(() {
         _instruction = "Liveness check passed!";
         _progress = 1.0;
+        _currentAnimationAsset = 'assets/animations/success.json';
       });
-      _navigateToDocumentUpload();
+      _challengeAnimationController.forward();
+      Future.delayed(const Duration(seconds: 2), _navigateToDocumentUpload);
       return;
     }
 
     _currentChallenge = _challenges[_challengeIndex];
     _timeRemaining = 10;
-    _animationController.reset();
-    _animationController.forward();
+    _progressAnimationController.reset();
+    _progressAnimationController.forward();
 
     setState(() {
       _instruction = "Please $_currentChallenge";
+      switch (_currentChallenge) {
+        case 'Nod':
+          _currentAnimationAsset = 'assets/animations/nod.json';
+          break;
+        case 'Smile':
+          _currentAnimationAsset = 'assets/animations/smile.json';
+          break;
+        case 'Turn Left':
+          _currentAnimationAsset = 'assets/animations/turn_left.json'; // Reversed for mirror effect
+          break;
+        case 'Turn Right':
+          _currentAnimationAsset = 'assets/animations/turn_right.json'; // Reversed for mirror effect
+          break;
+      }
     });
+
+    _challengeAnimationController.reset();
+    _challengeAnimationController.repeat();
 
     _challengeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeRemaining > 0) {
@@ -110,7 +138,7 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
 
   void _failChallenge() {
     _challengeTimer?.cancel();
-    _animationController.stop();
+    _progressAnimationController.stop();
     setState(() {
       _instruction = "Challenge failed. Please try again.";
     });
@@ -121,7 +149,7 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
 
   void _completeChallenge() {
     _challengeTimer?.cancel();
-    _animationController.stop();
+    _progressAnimationController.stop();
     setState(() {
       _progress = (_challengeIndex + 1) / _challenges.length;
     });
@@ -242,13 +270,13 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
           _completeChallenge();
         }
         break;
-      case 'Turn Left':
-        if (face.headEulerAngleY != null && face.headEulerAngleY! < -30) {
+      case 'Turn Right':
+        if (face.headEulerAngleY != null && face.headEulerAngleY! > 30) {
           _completeChallenge();
         }
         break;
-      case 'Turn Right':
-        if (face.headEulerAngleY != null && face.headEulerAngleY! > 30) {
+      case 'Turn Left':
+        if (face.headEulerAngleY != null && face.headEulerAngleY! < -30) {
           _completeChallenge();
         }
         break;
@@ -305,6 +333,19 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
                           ),
                         ),
                       ),
+                      if (_currentAnimationAsset.isNotEmpty)
+                        Positioned(
+                          top: 20,
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(
+                              _currentAnimationAsset,
+                              controller: _challengeAnimationController,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
                     ],
                   );
                 },
@@ -333,7 +374,8 @@ class _LivenessDetectionPageState extends State<LivenessDetectionPage> with Sing
     _cameraController?.dispose();
     _faceDetector?.close();
     _challengeTimer?.cancel();
-    _animationController.dispose();
+    _progressAnimationController.dispose();
+    _challengeAnimationController.dispose();
     super.dispose();
   }
 }
