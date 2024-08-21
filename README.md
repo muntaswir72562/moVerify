@@ -1,4 +1,4 @@
-# Remote Identity Proofing App
+# MoVerify - Remote Identity Proofing App
 
 ## Overview
 
