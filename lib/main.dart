@@ -3,11 +3,17 @@ import 'core/theme/app_theme.dart';
 import 'features/auth/screens/login.dart';
 import 'features/onboarding/screens/overall_process.dart';
 import 'features/onboarding/screens/fingerprint_registration.dart';
+import 'features/third_party/portal.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -31,6 +37,7 @@ class WelcomeScreen extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const LoginScreen(),
       // builder: (context) => const FingerprintRegistrationScreen(),
+      // builder: (context) => WebThirdPartyLoginScreen(),
     ));
   }
 

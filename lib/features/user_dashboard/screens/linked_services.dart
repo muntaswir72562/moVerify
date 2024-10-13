@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moverify/components/user_sidebar.dart';
+import 'package:moverify/features/user_dashboard/screens/service_application.dart';
 
 class LinkedServicesScreen extends StatefulWidget {
   const LinkedServicesScreen({super.key});
@@ -54,8 +55,18 @@ class _LinkedServicesScreenState extends State<LinkedServicesScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // TODO: Implement link new service functionality
-                    print('Link new service pressed');
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ServiceApplicationScreen(
+                      userDocuments: UserDocuments(documents: {
+                        'National ID': true,
+                        'Proof of Address': true,
+                        'Passport Photo': false,
+                        'Birth Certificate': true
+                        // ... other documents
+                      }),
+                    )),
+                  );
                   },
                   icon: const Icon(Icons.link),
                   label: const Text('Link new service'),
