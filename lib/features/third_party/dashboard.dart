@@ -81,33 +81,40 @@ class _WebThirdPartyDashboardState extends State<WebThirdPartyDashboard> {
             ),
             SizedBox(height: 24),
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Name')),
-                    DataColumn(label: Text('Service')),
-                    DataColumn(label: Text('Date')),
-                    DataColumn(label: Text('Status')),
-                    DataColumn(label: Text('Priority')),
-                    DataColumn(label: Text('Action')),
-                  ],
-                  rows: applications.map((app) => DataRow(
-                    cells: [
-                      DataCell(Text(app.name)),
-                      DataCell(Text(app.service)),
-                      DataCell(Text(app.date)),
-                      DataCell(_getStatusChip(app.status, theme)),
-                      DataCell(_getPriorityChip(app.priority, theme)),
-                      DataCell(
-                        TextButton(
-                          child: Text('Manage'),
-                          onPressed: () => _showActionDialog(context, app),
-                        ),
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: constraints.maxWidth),
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('Name')),
+                          DataColumn(label: Text('Service')),
+                          DataColumn(label: Text('Date')),
+                          DataColumn(label: Text('Status')),
+                          DataColumn(label: Text('Priority')),
+                          DataColumn(label: Text('Action')),
+                        ],
+                        rows: applications.map((app) => DataRow(
+                          cells: [
+                            DataCell(Text(app.name)),
+                            DataCell(Text(app.service)),
+                            DataCell(Text(app.date)),
+                            DataCell(_getStatusChip(app.status, theme)),
+                            DataCell(_getPriorityChip(app.priority, theme)),
+                            DataCell(
+                              TextButton(
+                                child: Text('Manage'),
+                                onPressed: () => _showActionDialog(context, app),
+                              ),
+                            ),
+                          ],
+                        )).toList(),
                       ),
-                    ],
-                  )).toList(),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
